@@ -1,0 +1,374 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Zander Ink - Screen Printing Price Calculator</title><style>
+    :root{
+      --bg:#0f1115;
+      --card:#171a21;
+      --card2:#1e232d;
+      --text:#f4f7fb;
+      --muted:#9aa4b2;
+      --accent:#6dff5a;
+      --accent-dark:#3fbf31;
+      --danger:#ff6b6b;
+      --border:#2b3240;
+      --shadow:0 18px 40px rgba(0,0,0,.25);
+      --radius:18px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:Arial, Helvetica, sans-serif;
+      background:linear-gradient(180deg,#0c0e12,#141923 40%,#0f1115);
+      color:var(--text);
+    }
+    .wrap{
+      max-width:1100px;
+      margin:0 auto;
+      padding:18px;
+    }
+    .hero{
+      background:linear-gradient(135deg,#161b24,#10141c 60%,#1a2316);
+      border:1px solid var(--border);
+      border-radius:24px;
+      padding:22px;
+      box-shadow:var(--shadow);
+      margin-bottom:18px;
+    }
+    .hero h1{
+      margin:0 0 8px;
+      font-size:clamp(28px,5vw,46px);
+      letter-spacing:1px;
+    }
+    .hero p{
+      margin:0;
+      color:var(--muted);
+      font-size:15px;
+      line-height:1.45;
+      max-width:760px;
+    }
+    .brand{
+      display:inline-block;
+      background:var(--accent);
+      color:#0b1208;
+      font-weight:800;
+      padding:8px 12px;
+      border-radius:999px;
+      margin-bottom:12px;
+      font-size:13px;
+      letter-spacing:.6px;
+      text-transform:uppercase;
+    }
+    .grid{
+      display:grid;
+      grid-template-columns:1.2fr .8fr;
+      gap:18px;
+    }
+    @media (max-width: 900px){
+      .grid{grid-template-columns:1fr}
+    }
+    .card{
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      overflow:hidden;
+    }
+    .card h2{
+      margin:0;
+      font-size:20px;
+    }
+    .section{
+      padding:18px;
+      border-bottom:1px solid var(--border);
+    }
+    .section:last-child{border-bottom:none}
+    .sub{
+      color:var(--muted);
+      font-size:13px;
+      margin-top:6px;
+      line-height:1.4;
+    }
+    .form-grid{
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:14px;
+      margin-top:14px;
+    }
+    @media (max-width: 560px){
+      .form-grid{grid-template-columns:1fr}
+    }
+    label{
+      display:block;
+      font-size:13px;
+      font-weight:700;
+      margin-bottom:7px;
+      letter-spacing:.2px;
+    }
+    input, select, textarea{
+      width:100%;
+      border:1px solid var(--border);
+      background:var(--card2);
+      color:var(--text);
+      border-radius:12px;
+      padding:12px 13px;
+      font-size:15px;
+      outline:none;
+    }
+    input:focus, select:focus, textarea:focus{
+      border-color:var(--accent-dark);
+      box-shadow:0 0 0 3px rgba(109,255,90,.15);
+    }
+    .inline{
+      display:grid;
+      grid-template-columns:repeat(3,minmax(0,1fr));
+      gap:10px;
+    }
+    .check-grid{
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:10px;
+      margin-top:8px;
+    }
+    @media (max-width:560px){
+      .inline,.check-grid{grid-template-columns:1fr}
+    }
+    .check{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      background:var(--card2);
+      border:1px solid var(--border);
+      padding:12px;
+      border-radius:12px;
+    }
+    .check input{
+      width:auto;
+      transform:scale(1.15);
+    }
+    .btn-row{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:16px;
+    }
+    button{
+      border:none;
+      background:var(--accent);
+      color:#091008;
+      font-weight:800;
+      padding:12px 16px;
+      border-radius:12px;
+      cursor:pointer;
+      font-size:15px;
+    }
+    button.secondary{
+      background:#2b3240;
+      color:var(--text);
+    }
+    button.warn{
+      background:var(--danger);
+      color:#fff;
+    }
+    .results{
+      position:sticky;
+      top:14px;
+    }
+    .big{
+      font-size:clamp(30px,5vw,44px);
+      font-weight:900;
+      margin:8px 0 2px;
+    }
+    .per{
+      color:var(--muted);
+      font-size:14px;
+      margin-bottom:14px;
+    }
+    .total-box{
+      background:linear-gradient(135deg,#182014,#121720);
+      border:1px solid #2c4d24;
+      border-radius:18px;
+      padding:16px;
+    }
+    .line-item{
+      display:flex;
+      justify-content:space-between;
+      gap:16px;
+      padding:10px 0;
+      border-bottom:1px dashed var(--border);
+      font-size:14px;
+    }
+    .line-item:last-child{border-bottom:none}
+    .line-item span:last-child{font-weight:700}
+    .muted{color:var(--muted)}
+    .badge{
+      display:inline-block;
+      padding:7px 10px;
+      border-radius:999px;
+      background:#222936;
+      border:1px solid var(--border);
+      color:var(--text);
+      font-size:12px;
+      margin:4px 6px 0 0;
+    }
+    .quote{
+      background:var(--card2);
+      border-radius:14px;
+      padding:14px;
+      border:1px solid var(--border);
+      white-space:pre-wrap;
+      line-height:1.45;
+      font-size:14px;
+    }
+    .footer-note{
+      color:var(--muted);
+      font-size:12px;
+      line-height:1.5;
+      margin-top:14px;
+    }
+    .price-table{
+      width:100%;
+      border-collapse:collapse;
+      font-size:13px;
+    }
+    .price-table th,.price-table td{
+      border-bottom:1px solid var(--border);
+      padding:9px 8px;
+      text-align:left;
+    }
+    .price-table th{color:var(--muted); font-weight:700}
+  
+.garment-card{background:var(--card2);border:1px solid var(--border);border-radius:16px;padding:15px;margin-top:14px}
+.garment-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
+.garment-head strong{font-size:16px}
+.garment-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.garment-fields label{margin-bottom:5px}
+.garment-fields select,.garment-fields input{padding:10px}
+.garment-summary{background:#121720;border:1px solid var(--border);border-radius:12px;padding:12px;margin-top:12px;line-height:1.7}
+.garment-summary strong{color:var(--accent)}
+.small-button{padding:8px 10px;font-size:12px}
+.remove-btn{background:#4a252a;color:#fff}
+.note{font-size:12px;color:var(--muted);line-height:1.5;margin-top:10px}
+@media(max-width:560px){.garment-fields{grid-template-columns:1fr}}
+@media print{body{background:white;color:#111} .hero,.editor,.btn-row,.note{display:none!important}.grid{display:block}.results{position:static}.card,.total-box{background:white;color:#111;box-shadow:none}.muted,.sub,.per{color:#333!important}}
+</style></head><body>
+<div class="wrap"><div class="hero"><div class="brand">Zander Ink Quote Tool</div><h1>Screen Printing Price Calculator</h1><p>All-in screen printing pricing with multiple garment types on one quote. Normal screen setup is included.</p></div>
+<div class="grid"><div class="card editor">
+ <div class="section"><h2>Quote Setup</h2><div class="sub">Enter the customer, then add each garment to the order.</div><div class="form-grid"><div><label for="customerName">Customer / Job Name</label><input id="customerName" placeholder="Ex: Chad's Lawn Care"></div><div><label for="artFee">Artwork / Misc Fee ($)</label><input type="number" min="0" step=".01" id="artFee" value="0"></div><div><label for="discount">Discount ($)</label><input type="number" min="0" step=".01" id="discount" value="0"></div><div><label for="taxRate">Tax Rate (%)</label><input type="number" min="0" step=".01" id="taxRate" value="0"></div></div></div>
+ <div class="section"><h2>Garments &amp; Printing</h2><div class="sub">Every garment line can have a different quantity, garment type, front colors, and back colors.</div><div id="garments"></div><div class="btn-row"><button id="addGarment" type="button">+ Add Another Garment</button></div><div class="note">Quantity tiers apply to each garment line independently. Normal screen setup is already included. Standard Gildan 8000 pricing for tees; other garment types use the original calculator's fixed upgrade amounts.</div></div>
+ <div class="section"><h2>Included Pricing Matrix</h2><div class="sub">Base price for a standard tee with front printing, including normal setup.</div><div style="overflow-x:auto"><table class="price-table" id="matrix"><thead><tr><th>Quantity</th><th>1C</th><th>2C</th><th>3C</th><th>4C</th><th>5C</th><th>6C</th></tr></thead><tbody></tbody></table></div>
+ <div class="note">One-color back print ranges from $2.50 at low quantities to $0.75 at 500+. Additional back colors also follow quantity breaks.</div></div>
+ <div class="section"><div class="btn-row"><button id="saveBtn" type="button">Save Current Quote</button><button id="copyBtn" class="secondary" type="button">Copy Quote</button><button id="printBtn" class="secondary" type="button">Print / Save PDF</button><button id="resetBtn" class="warn" type="button">Reset</button></div></div>
+</div>
+<div class="results"><div class="card"><div class="section"><h2>Live Quote</h2><div class="sub">Combined total for every garment in this order.</div><div class="total-box"><div class="muted">Estimated Total</div><div class="big" id="grandTotal">$0.00</div><div class="per" id="perShirt">— per garment</div><span class="badge" id="badgeQty">0 garments</span><span class="badge" id="badgeLines">0 styles</span></div></div>
+<div class="section"><h2>Itemized Breakdown</h2><div id="breakdown"></div></div>
+<div class="section"><h2>Customer Quote Text</h2><div class="quote" id="quoteText"></div></div></div></div></div></div>
+<script>
+const tiers=[
+{min:12,max:23,front:[9.50,11,12.50,14,15.50,17],back:2.50,backExtra:1.50},
+{min:24,max:47,front:[7.75,8.75,9.75,10.75,11.75,12.75],back:2,backExtra:1},
+{min:48,max:71,front:[6.25,7,7.75,8.50,9.25,10],back:1.50,backExtra:.75},
+{min:72,max:143,front:[5.25,5.95,6.65,7.35,8.05,8.75],back:1.25,backExtra:.65},
+{min:144,max:287,front:[4.75,5.35,5.95,6.55,7.15,7.75],back:1,backExtra:.55},
+{min:288,max:499,front:[4.30,4.80,5.30,5.80,6.30,6.80],back:.85,backExtra:.45},
+{min:500,max:Infinity,front:[3.95,4.40,4.85,5.30,5.75,6.20],back:.75,backExtra:.40}
+];
+const upgrades={tee:0,longsleeve:3,crewneck:5,hoodie:8.50};
+const garmentLabels={tee:'T-Shirt',longsleeve:'Long Sleeve',crewneck:'Crewneck',hoodie:'Hoodie'};
+const sizeExtras={'2xl':2,'3xl':3,'4xl':4};
+const $=id=>document.getElementById(id);
+const money=n=>'$'+Number(n||0).toFixed(2);
+let items=[],nextId=1;
+function options(data,selected) {return data.map(([val,label])=>`<option value="${val}" ${String(val)===String(selected)?'selected':''}>${label}</option>`).join('');}
+function newItem(overrides={}) {return Object.assign({id:nextId++,type:'tee',quantity:72,front:2,back:2,qty2xl:0,qty3xl:0,qty4xl:0},overrides);}
+function rowHTML(item,i) {
+const typeOptions=Object.entries(garmentLabels);
+const colorOptions=[0,1,2,3,4,5,6].map(n=>[n,n===0?'None':`${n} Color${n===1?'':'s'}`]);
+const frontOptions=colorOptions.slice(1);
+return `<div class="garment-card" data-id="${item.id}">
+<div class="garment-head"><strong>Garment ${i+1}</strong>${items.length>1?`<button type="button" class="small-button remove-btn" data-action="remove">Remove</button>`:''}</div>
+<div class="garment-fields">
+<div><label>Garment Type</label><select data-field="type">${options(typeOptions,item.type)}</select></div>
+<div><label>Quantity</label><input data-field="quantity" type="number" min="1" step="1" value="${item.quantity}"></div>
+<div><label>Front Print Colors</label><select data-field="front">${options(frontOptions,item.front)}</select></div>
+<div><label>Back Print Colors</label><select data-field="back">${options(colorOptions,item.back)}</select></div>
+<div><label>2XL Quantity</label><input data-field="qty2xl" type="number" min="0" step="1" value="${item.qty2xl}"></div>
+<div><label>3XL Quantity</label><input data-field="qty3xl" type="number" min="0" step="1" value="${item.qty3xl}"></div>
+<div><label>4XL Quantity</label><input data-field="qty4xl" type="number" min="0" step="1" value="${item.qty4xl}"></div>
+</div><div class="garment-summary" id="summary-${item.id}"></div></div>`;
+}
+function renderRows(){$('garments').innerHTML=items.map(rowHTML).join('');calc();}
+function tierFor(q){return tiers.find(t=>q>=t.min&&q<=t.max);}
+function calculateItem(item){
+ const qty=Number(item.quantity)||0;
+ const tier=tierFor(qty);
+ if(!tier)return {error:'Minimum priced quantity is 12 pieces per garment line.',quantity:qty};
+ if(item.qty2xl+item.qty3xl+item.qty4xl>qty)return {error:'Extended-size quantities exceed this garment quantity.',quantity:qty};
+ const front=tier.front[item.front-1],back=item.back?tier.back+(item.back-1)*tier.backExtra:0;
+ const garment=upgrades[item.type]||0,unit=front+back+garment;
+ const sizeCharge=item.qty2xl*2+item.qty3xl*3+item.qty4xl*4;
+ return {quantity:qty,front,back,garment,unit,sizeCharge,total:unit*qty+sizeCharge};
+}
+function calc(){
+ let totalGarments=0,subtotal=0;
+ const breakdown=[],lines=[],errors=[];
+ const customer=$('customerName').value.trim();
+ items.forEach((item,index)=>{
+  const r=calculateItem(item); totalGarments+=Math.max(0,r.quantity||0);
+  const summary=$('summary-'+item.id);
+  if(r.error){summary.textContent=r.error;errors.push(`Garment ${index+1}: ${r.error}`);return;}
+  subtotal+=r.total;
+  const colorDesc=`${item.front}C front / ${item.back?item.back+'C back':'no back'}`;
+  const line=`${item.quantity} ${garmentLabels[item.type]} — ${colorDesc} — ${money(r.total/item.quantity)} average ea — ${money(r.total)}`;
+  lines.push(line);
+  summary.innerHTML=`<strong>${money(r.total)}</strong> total &nbsp;·&nbsp; ${money(r.total/item.quantity)} average each<br>
+  Front &amp; blank: ${money(r.front)}/ea · Back: ${money(r.back)}/ea · Garment upgrade: ${money(r.garment)}/ea
+  ${r.sizeCharge?`<br>Extended size charges: ${money(r.sizeCharge)}`:''}`;
+  breakdown.push(`<div class="line-item"><span><strong>Garment ${index+1}: ${garmentLabels[item.type]}</strong><br><span class="muted">${item.quantity} pcs · ${colorDesc}</span></span><span>${money(r.total)}</span></div>`);
+ });
+ const art=Math.max(0,Number($('artFee').value)||0),discount=Math.max(0,Number($('discount').value)||0);
+ const taxRate=Math.max(0,Number($('taxRate').value)||0);
+ const beforeTax=Math.max(0,subtotal+art-discount),tax=beforeTax*taxRate/100;
+ const grandTotal=beforeTax+tax;
+ if(art)breakdown.push(`<div class="line-item"><span>Artwork / Misc</span><span>${money(art)}</span></div>`);
+ if(discount)breakdown.push(`<div class="line-item"><span>Discount</span><span>-${money(discount)}</span></div>`);
+ if(tax)breakdown.push(`<div class="line-item"><span>Tax</span><span>${money(tax)}</span></div>`);
+ if(errors.length)breakdown.push(`<div class="note" style="color:var(--danger)">${errors.join('<br>')}</div>`);
+ $('breakdown').innerHTML=breakdown.join('');
+ $('badgeQty').textContent=`${totalGarments} garments`;
+ $('badgeLines').textContent=`${items.length} style${items.length===1?'':'s'}`;
+ $('grandTotal').textContent=errors.length?'Fix line quantities':money(grandTotal);
+ $('grandTotal').style.fontSize=errors.length?'23px':'';
+ $('perShirt').textContent=errors.length?'Some lines need changes':`${money(grandTotal/(totalGarments||1))} average per garment`;
+ $('quoteText').textContent=[customer||'Zander Ink Quote',...lines,errors.length?'INCOMPLETE QUOTE - correct garment quantities':'',`Subtotal: ${money(subtotal)}`,`Artwork/Misc: ${money(art)}`,`Discount: -${money(discount)}`,`Tax: ${money(tax)}`,`Total: ${errors.length?'Pending':money(grandTotal)}`,'Screen setup included in pricing.'].join('\n');
+ save();
+}
+function save(){
+ const data={nextId,items,customerName:$('customerName').value,artFee:$('artFee').value,discount:$('discount').value,taxRate:$('taxRate').value};
+ try{localStorage.setItem('zanderInkMultiGarmentQuoteV1',JSON.stringify(data))}catch(e){}
+}
+function restore(){
+ try {const data=JSON.parse(localStorage.getItem('zanderInkMultiGarmentQuoteV1')||'null');if(data&&Array.isArray(data.items)&&data.items.length){items=data.items;nextId=Math.max(data.nextId||1,...items.map(x=>x.id+1));['customerName','artFee','discount','taxRate'].forEach(k=>{if(data[k]!=null)$(k).value=data[k]});return}}catch(e){}
+ items=[newItem({quantity:72,type:'tee',front:2,back:2}),newItem({quantity:16,type:'hoodie',front:2,back:2})];
+}
+$('garments').addEventListener('input',event=>{
+ const card=event.target.closest('[data-id]');if(!card)return;
+ const item=items.find(i=>i.id===Number(card.dataset.id));if(!item)return;
+ const field=event.target.dataset.field;if(!field)return;
+ const value=event.target.value;item[field]=field==='type'?value:Math.max(0,Math.floor(Number(value)||0));calc();
+});
+$('garments').addEventListener('change',event=>{if(event.target.dataset.field)calc()});
+$('garments').addEventListener('click',event=>{
+ if(event.target.dataset.action!=='remove')return;
+ const card=event.target.closest('[data-id]');
+ items=items.filter(i=>i.id!==Number(card.dataset.id));renderRows();
+});
+$('addGarment').addEventListener('click',()=>{
+ const previous=items[items.length-1];items.push(newItem({type:'tee',quantity:24,front:previous?.front||1,back:previous?.back||0}));
+ renderRows();
+});
+['customerName','artFee','discount','taxRate'].forEach(id=>$(id).addEventListener('input',calc));
+$('saveBtn').addEventListener('click',()=>{save();alert('Current quote saved in this browser.');});
+$('copyBtn').addEventListener('click',()=>{const q=$('quoteText').textContent;if(navigator.clipboard?.writeText){navigator.clipboard.writeText(q).then(()=>alert('Quote copied')).catch(()=>prompt('Copy quote:',q))}else prompt('Copy quote:',q);});
+$('printBtn').addEventListener('click',()=>window.print());
+$('resetBtn').addEventListener('click',()=>{if(confirm('Reset this quote?')){try{localStorage.removeItem('zanderInkMultiGarmentQuoteV1')}catch(e){}location.reload()}});
+$('matrix').querySelector('tbody').innerHTML=tiers.map(t=>`<tr><td>${t.min}${t.max===Infinity?'+':'–'+t.max}</td>${t.front.map(p=>`<td>${money(p)}</td>`).join('')}</tr>`).join('');
+restore();renderRows();
+</script></body></html>
